@@ -1,0 +1,12 @@
+#!/bin/bash
+user=
+read -p "Enter Pass:" pass
+while read conf;
+ do
+        #change agent
+        sed -i 's/@@MUR_Agent@@/@@MUR_Agent_New@@/g' $conf
+        #commit and stage
+        svn commit $conf -m "QA8 to QA2" --username $user --password $pass --non-interactive
+        fteStageCM.sh -d . -e QSU $conf
+
+done < list.txt
